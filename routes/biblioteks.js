@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
   let printBooks = `<h1> Books in the Library</h1>`
   for (book in books) {
-    printBooks += `<div>${books[book].bookName} <a href="/biblioteks/:id">Låna</a></div>`
+    printBooks += `<div>${books[book].bookName} <a href="/biblioteks/${books[book].id}">Låna</a></div>`
   };
 
   printBooks += `<div><a href="/biblioteks/add">Lägg till en ny bok</a></div></div>`;
@@ -44,17 +44,11 @@ router.post("/add", function(req, res) {
 router.get("/:id", (req, res) => {
   
   let showBook = req.params.id;
-  console.log(showBook);
-  for (book in books){
-    console.log(books[book].id);
-    if(books[book].id == showBook)
-    console.log(books[book].bookName);
-  }
-  // let borrowedBook = books.filter((book) => book.id == showBook);
-  // console.log(borrowedBook);
+
+   let borrowedBook = books.filter((book) => book.id == showBook);
 
   res.send(`<div><h2>Följande bok/böcker är utlånade:</h2>
-          <div></div></div>`)
+          <div>${borrowedBook[0].bookName}</div></div>`)
 });
 
 module.exports = router;
