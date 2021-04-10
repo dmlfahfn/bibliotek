@@ -1,10 +1,11 @@
+const e = require('express');
 var express = require('express');
 var router = express.Router();
 
 let books = [
-  {bookName: "Harry Potter", writer: "J.K. Rowling", release: 1997, rented: false},
-  {bookName: "Da Vinci Code", writer: "Dan Brown", release: 2003, rented: false},
-  {bookName: "To Kill a Mockingbird", writer: "Harper Lee",release: 1960, rented: true },
+  {id: 1, bookName: "Harry Potter", writer: "J.K. Rowling", release: 1997, rented: false},
+  {id: 2, bookName: "Da Vinci Code", writer: "Dan Brown", release: 2003, rented: false},
+  {id: 3, bookName: "To Kill a Mockingbird", writer: "Harper Lee",release: 1960, rented: true },
 ]
 
 /* GET users listing. */
@@ -12,7 +13,7 @@ router.get('/', function(req, res, next) {
 
   let printBooks = `<h1> Books in the Library</h1>`
   for (book in books) {
-    printBooks += `<div>${books[book].bookName}</div>`
+    printBooks += `<div>${books[book].bookName} <a href="/biblioteks/:id">Låna</a></div>`
   };
 
   printBooks += `<div><a href="/biblioteks/add">Lägg till en ny bok</a></div></div>`;
@@ -37,7 +38,23 @@ router.post("/add", function(req, res) {
   
   books.push(newBook);
 
-  res.send("funkar")
+  res.redirect("/biblioteks");
+});
+
+router.get("/:id", (req, res) => {
+  
+  let showBook = req.params.id;
+  console.log(showBook);
+  for (book in books){
+    console.log(books[book].id);
+    if(books[book].id == showBook)
+    console.log(books[book].bookName);
+  }
+  // let borrowedBook = books.filter((book) => book.id == showBook);
+  // console.log(borrowedBook);
+
+  res.send(`<div><h2>Följande bok/böcker är utlånade:</h2>
+          <div></div></div>`)
 });
 
 module.exports = router;
