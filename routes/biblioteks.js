@@ -32,11 +32,17 @@ router.get("/add", function(req, res) {
 });
 
 router.post("/add", function(req, res) {
-  console.log(req.body);
 
   let newBook = {bookName: req.body.bookName, writer: req.body.writer,release: req.body.release, rented: false};
-  
+
   books.push(newBook);
+
+  let i = 4;
+  books.map(n => {
+    n['id'] = i;
+    i++;
+    console.log(i++);
+  });
 
   res.redirect("/biblioteks");
 });
