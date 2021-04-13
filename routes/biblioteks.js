@@ -44,16 +44,42 @@ router.post("/add", function(req, res) {
 router.get("/:id", (req, res) => {
   
   let showBook = req.params.id;
-
-   let borrowedBook = books.filter((book) => book.id == showBook);
-
+  
+  let borrowedBook = books.filter((book) => book.id == showBook);
+  
   res.send(`<div><h2>Lite om boken:</h2>
           <div><b>Titel:</b> ${borrowedBook[0].bookName}</div> 
           <div><b>Författare:</b> ${borrowedBook[0].writer}</div> 
           <div><b>Skriven:</b> ${borrowedBook[0].release}</div>
           <div><b>Status:</b> ${borrowedBook[0].rented? `Utlånad 
-          <a href="/biblioteks/${borrowedBook.id}/return">Återlämna</a>`:`Låna
-          <a href="/biblioteks/${borrowedBook.id}/borrow">Låna</a></div>`}`);
+          <a href="/biblioteks/return/${borrowedBook[0].id}">Återlämna</a>`:`Tillgänglig
+          <a href="/biblioteks/borrow/${borrowedBook[0].id}">Låna</a></div>`}`);
+});
+
+router.get("/return/:id", (req, res) => {
+  
+  let bookId = req.params.id;
+  
+  let returnBook = books.filter((book) => book.id == bookId);
+  
+  returnBook[0].rented = false;
+  
+  res.send(`<div><h2>Boken har återlämnats</h2>
+          <div><b>Status:</b> Återlämnats
+          <a href="/biblioteks">Tillbaka till Biblioteket</a></div></div>`);
+  
+});
+
+router.get("/borrow/:id", (req, res) => {
+  let bookId = req.params.id;
+  
+  let returnBook = books.filter((book) => book.id == bookId);
+  
+  returnBook[0].rented = true;
+  
+  res.send(`<div><h2>Boken har lånats</h2>
+          <div><b>Status:</b> Utlånad
+          <a href="/biblioteks">Tillbaka till Biblioteket</a></div></div>`);
 });
 
 module.exports = router;
