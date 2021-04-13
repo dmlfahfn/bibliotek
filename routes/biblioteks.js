@@ -37,7 +37,7 @@ router.post("/add", function(req, res) {
 
   books.push(newBook);
 
-  let i = 4;
+  let i = 1;
   books.map(n => {
     n['id'] = i;
     i++;
